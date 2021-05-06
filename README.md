@@ -8,7 +8,7 @@
 [![CircleCI](https://flat.badgen.net/circleci/github/idleberg/atom-expose-commands)](https://circleci.com/gh/idleberg/atom-expose-commands)
 [![David](https://flat.badgen.net/david/dep/idleberg/atom-expose-commands)](https://david-dm.org/idleberg/atom-expose-commands)
 
-Let's get this straight from the beginning: chance are that **you don't need this package**. It's aimed at the top 1% of the weirdest Atom users out there or, more likely, Atom developers. As the tagline suggests, it lets you package commands to the built-in console – who even does that? Seriously!
+Let's get this straight from the beginning: chances are that **you don't need this package**. It's aimed at the top 1% of the weirdest Atom users out there or, more likely, Atom developers. As the tagline suggests, it lets you run package commands to the built-in development console – who even does that? Nobody!
 
 ## Installation
 
