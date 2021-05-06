@@ -5,34 +5,36 @@ import Logger from './log';
 
 const ExposeCommands = {
   config: config.schema,
+  prefix: '$',
   subscriptions: new CompositeDisposable(),
 
   async activate(): Promise<void> {
     Logger.log('Activating package');
 
+    this.prefix = config.get('prefix');
     const view: HTMLElement = atom.views.getView(atom.workspace);
     const registeredCommands = Object.keys(atom.commands.registeredCommands);
 
     console.group('Initial Assignment');
-    registeredCommands.map(command => this.exposePackageCommands(view, command));
+    registeredCommands.map((command) => this.exposePackageCommands(view, command));
     console.groupEnd();
 
-    atom.packages.onDidActivatePackage(({name}) => {
+    atom.packages.onDidActivatePackage(({ name }) => {
       Logger.log(`User activated ${name}`);
 
       console.group('Activation Assignment');
       registeredCommands
-        .filter(command => command.startsWith(name))
-        .map(command => this.exposePackageCommands(view, command));
+        .filter((command) => command.startsWith(name))
+        .map((command) => this.exposePackageCommands(view, command));
       console.groupEnd();
     });
 
-    atom.packages.onDidDeactivatePackage(({name}) => {
+    atom.packages.onDidDeactivatePackage(({ name }) => {
       Logger.log(`User deactivated ${name}`);
 
       const { prefix } = config.get();
       const className = camelCase(name);
-      delete window[`${prefix}${className}`];
+      delete window[`${this.prefix}${className}`];
     });
   },
 
@@ -46,20 +48,17 @@ const ExposeCommands = {
     const { prefix } = config.get();
     const [pkg, cmd] = command.split(':');
     const className = camelCase(pkg);
-    const methodName = cmd
-      ? camelCase(cmd)
-      : null;
+    const methodName = cmd ? camelCase(cmd) : null;
 
+    if (className && methodName) {
+      Logger.log(`Assigning ${command} to ${this.prefix}${className}.${methodName}`);
 
-      if (className && methodName) {
-      Logger.log(`Assigning ${command} to ${prefix}${className}.${methodName}`);
-
-      window[`${prefix}${className}`] = window[`${prefix}${className}()`] || {};
-      window[`${prefix}${className}`][methodName] = async () => await atom.commands.dispatch(view, command);
+      window[`${this.prefix}${className}`] = window[`${this.prefix}${className}`] || {};
+      window[`${this.prefix}${className}`][methodName] = async () => await atom.commands.dispatch(view, command);
     } else if (className) {
-      Logger.log(`Assigning ${command} to ${prefix}${className}()`);
+      Logger.log(`Assigning ${command} to ${this.prefix}${className}()`);
 
-      window[`${prefix}${className}`] = async () => await atom.commands.dispatch(view, command);
+      window[`${this.prefix}${className}`] = async () => await atom.commands.dispatch(view, command);
     }
   }
 };

@@ -4,7 +4,7 @@ import { name } from '../package.json';
 export default {
   schema: {
     prefix: {
-      description: 'Defines a prefix for exposed commands',
+      description: 'Defines a prefix for exposed commands. Requires a restart on change.',
       type: 'string',
       default: '$',
       order: 1
@@ -12,9 +12,7 @@ export default {
   },
 
   get(key = ''): ConfigValues {
-    return key?.length
-      ? atom.config.get(`${name}.${key}`)
-      : atom.config.get(`${name}`);
+    return key?.length ? atom.config.get(`${name}.${key}`) : atom.config.get(`${name}`);
   },
 
   migrate(oldKey: string, newKey: string): void {
@@ -34,9 +32,7 @@ export default {
   },
 
   unset(key = ''): void {
-    const unsetKey = key?.length
-      ? `${name}.${key}`
-      : name;
+    const unsetKey = key?.length ? `${name}.${key}` : name;
 
     atom.config.unset(unsetKey);
   }
