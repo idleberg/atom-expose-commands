@@ -39,8 +39,8 @@ $ git clone https://github.com/idleberg/atom-expose-commands expose-commands
 Package commands are exposed to the console on activation. There are a few things to keep in mind before you can run these:
 
 1. Commands are provided as `packageName.commandName` and always [camel cased](https://www.wikiwand.com/en/Camel_case)
-2. Commands are prefixed with `$``
-3. Commands are async
+2. Commands are prefixed with `$`
+3. Commands are asynchronous
 
 **Examples:**
 
