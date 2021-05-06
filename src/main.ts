@@ -15,18 +15,18 @@ const ExposeCommands = {
     const view: HTMLElement = atom.views.getView(atom.workspace);
     const registeredCommands = Object.keys(atom.commands.registeredCommands);
 
-    console.group('Initial Assignment');
+    if (atom.inDevMode()) console.group('Initial Assignment');
     registeredCommands.map((command) => this.exposePackageCommands(view, command));
-    console.groupEnd();
+    if (atom.inDevMode()) console.groupEnd();
 
     atom.packages.onDidActivatePackage(({ name }) => {
       Logger.log(`User activated ${name}`);
 
-      console.group('Activation Assignment');
+      if (atom.inDevMode()) console.group('Activation Assignment');
       registeredCommands
         .filter((command) => command.startsWith(name))
         .map((command) => this.exposePackageCommands(view, command));
-      console.groupEnd();
+      if (atom.inDevMode()) console.groupEnd();
     });
 
     atom.packages.onDidDeactivatePackage(({ name }) => {
