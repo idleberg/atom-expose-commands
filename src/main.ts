@@ -45,6 +45,9 @@ const ExposeCommands = {
 
   exposePackageCommands(view: HTMLElement, command: string): void {
     const [pkg, cmd] = command.split(':');
+
+    if (config.get('excludedPackages').includes(pkg)) return;
+
     const className = camelCase(pkg);
     const methodName = cmd ? camelCase(cmd) : null;
 

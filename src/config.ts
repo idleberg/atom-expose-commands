@@ -8,6 +8,13 @@ export default {
       type: 'string',
       default: '$',
       order: 1
+    },
+    excludedPackages: {
+      title: 'Excluded Packages',
+      description: 'Comma-delimited list of packages that should be ignored from command exposure.',
+      type: 'array',
+      default: [],
+      order: 2
     }
   },
 
