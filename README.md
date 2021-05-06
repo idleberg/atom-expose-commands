@@ -58,7 +58,7 @@ await $setSyntax.scss();
 await $nsis.showVersion();
 ```
 
-:warn: At this point only commands with alphanumeric characters and dashes are supported
+:warning: At this point only commands with alphanumeric characters and dashes are supported
 
 ## License
 
