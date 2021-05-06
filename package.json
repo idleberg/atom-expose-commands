@@ -17,9 +17,9 @@
     "test": "npm run lint"
   },
   "keywords": [
-    "apm",
-    "local storage",
-    "clean"
+    "commands",
+    "console",
+    "developer tools"
   ],
   "repository": "https://github.com/idleberg/atom-expose-commands",
   "license": "MIT",
