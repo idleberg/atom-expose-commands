@@ -16,16 +16,20 @@ const ExposeCommands = {
     const registeredCommands = Object.keys(atom.commands.registeredCommands);
 
     if (atom.inDevMode()) console.group('Initial Assignment');
+
     registeredCommands.map((command) => this.exposePackageCommands(view, command));
+
     if (atom.inDevMode()) console.groupEnd();
 
     atom.packages.onDidActivatePackage(({ name }) => {
       Logger.log(`User activated ${name}`);
 
       if (atom.inDevMode()) console.group('Activation Assignment');
+
       registeredCommands
         .filter((command) => command.startsWith(name))
         .map((command) => this.exposePackageCommands(view, command));
+
       if (atom.inDevMode()) console.groupEnd();
     });
 
@@ -45,8 +49,10 @@ const ExposeCommands = {
 
   exposePackageCommands(view: HTMLElement, command: string): void {
     const [pkg, cmd] = command.split(':');
+    const { includedPackages, excludedPackages } = config.get();
 
-    if (config.get('excludedPackages').includes(pkg)) return;
+    if (includedPackages.length && !includedPackages.includes(pkg)) return;
+    if (excludedPackages.length && excludedPackages.includes(pkg)) return;
 
     const className = camelCase(pkg);
     const methodName = cmd ? camelCase(cmd) : null;

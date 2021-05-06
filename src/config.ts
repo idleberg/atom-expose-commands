@@ -9,12 +9,19 @@ export default {
       default: '$',
       order: 1
     },
-    excludedPackages: {
-      title: 'Excluded Packages',
-      description: 'Comma-delimited list of packages that should be ignored from command exposure.',
+    includedPackages: {
+      title: 'Included Packages',
+      description: 'Comma-delimited list of packages that will be included in command exposure.',
       type: 'array',
       default: [],
       order: 2
+    },
+    excludedPackages: {
+      title: 'Excluded Packages',
+      description: 'Comma-delimited list of packages that will be excluded from command exposure.',
+      type: 'array',
+      default: [],
+      order: 3
     }
   },
 
