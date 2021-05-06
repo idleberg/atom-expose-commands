@@ -32,7 +32,6 @@ const ExposeCommands = {
     atom.packages.onDidDeactivatePackage(({ name }) => {
       Logger.log(`User deactivated ${name}`);
 
-      const { prefix } = config.get();
       const className = camelCase(name);
       delete window[`${this.prefix}${className}`];
     });
@@ -45,7 +44,6 @@ const ExposeCommands = {
   },
 
   exposePackageCommands(view: HTMLElement, command: string): void {
-    const { prefix } = config.get();
     const [pkg, cmd] = command.split(':');
     const className = camelCase(pkg);
     const methodName = cmd ? camelCase(cmd) : null;
