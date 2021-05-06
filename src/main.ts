@@ -1,10 +1,10 @@
 import { CompositeDisposable } from 'atom';
-import { configSchema } from './config';
+import config from './config';
 import camelCase from 'camelcase';
 import Logger from './log';
 
 const ExposeCommands = {
-  config: configSchema,
+  config: config.schema,
   subscriptions: new CompositeDisposable(),
 
   async activate(): Promise<void> {
@@ -30,8 +30,9 @@ const ExposeCommands = {
     atom.packages.onDidDeactivatePackage(({name}) => {
       Logger.log(`User deactivated ${name}`);
 
+      const { prefix } = config.get();
       const className = camelCase(name);
-      delete window[`$${className}`];
+      delete window[`${prefix}${className}`];
     });
   },
 
@@ -42,23 +43,24 @@ const ExposeCommands = {
   },
 
   exposePackageCommands(view: HTMLElement, command: string): void {
+    const { prefix } = config.get();
     const [pkg, cmd] = command.split(':');
-      const className = camelCase(pkg);
-      const methodName = cmd
-        ? camelCase(cmd)
-        : null;
+    const className = camelCase(pkg);
+    const methodName = cmd
+      ? camelCase(cmd)
+      : null;
 
 
-        if (className && methodName) {
-        Logger.log(`Assigning ${command} to $${className}.${methodName}`);
+      if (className && methodName) {
+      Logger.log(`Assigning ${command} to ${prefix}${className}.${methodName}`);
 
-        window[`$${className}`] = window[`$${className}()`] || {};
-        window[`$${className}`][methodName] = async () => await atom.commands.dispatch(view, command);
-      } else if (className) {
-        Logger.log(`Assigning ${command} to $${className}()`);
+      window[`${prefix}${className}`] = window[`${prefix}${className}()`] || {};
+      window[`${prefix}${className}`][methodName] = async () => await atom.commands.dispatch(view, command);
+    } else if (className) {
+      Logger.log(`Assigning ${command} to ${prefix}${className}()`);
 
-        window[`$${className}`] = async () => await atom.commands.dispatch(view, command);
-      }
+      window[`${prefix}${className}`] = async () => await atom.commands.dispatch(view, command);
+    }
   }
 };
 
