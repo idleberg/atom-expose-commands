@@ -1,7 +1,7 @@
 {
   "name": "expose-commands",
   "main": "./lib/main",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Exposes package commands to the Developer Tools console",
   "scripts": {
     "analyze": "source-map-explorer lib/**/*.js",
