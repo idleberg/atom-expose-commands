@@ -45,16 +45,16 @@ Package commands are exposed to the console on activation. There are a few thing
 
 ```js
 // welcome:show
-await $welcome.show();
+$welcome.show();
 
 // set-syntax:CoffeeScript
-await $setSyntax.coffeeScript();
+$setSyntax.coffeeScript();
 
 // set-syntax:SCSS
-await $setSyntax.scss();
+$setSyntax.scss();
 
 // NSIS:show-version
-await $nsis.showVersion();
+$nsis.showVersion();
 ```
 
 :warning: At this point only commands with alphanumeric characters and dashes are supported
